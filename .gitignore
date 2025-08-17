@@ -10,5 +10,6 @@ alembic/
 
 # Virtual environments
 .venv
+.env
 alembic.ini
 uv.lock

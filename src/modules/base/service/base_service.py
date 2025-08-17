@@ -2,7 +2,6 @@ import pandas as pd
 from sqlalchemy import text, TextClause
 from typing import TypeVar
 
-
 from sqlalchemy.orm import DeclarativeBase
 from config.app.logger import Logger
 from config.db.database import Database
@@ -100,6 +99,7 @@ class BaseService:
         try:
             async with self.db.engine.connect() as conn:
                 data = await conn.run_sync(lambda sync_conn: pd.read_sql(query, sync_conn, dtype_backend='pyarrow'))
+                print(data)
                 return data
         except Exception as e:
             self._logger.error(f"BaseService.get_by_query Error: {e}")
@@ -113,14 +113,19 @@ class BaseService:
         """
         try:
             async with self.db.get_session() as session:
-                record = await session.get(self.model, id)
-                if record:
-                    await session.delete(record)
-                    await session.commit()
-                    self._logger.info(f"Deleted record with id: {id}")
-                else:
-
-                    raise ValueError(f"Record with id {id} not found.")
+                try:
+                    record = await session.get(self.model, id)
+                    if record:
+                        await session.delete(record)
+                        await session.commit()
+                        self._logger.info(f"Deleted record with id: {id}")
+                    else:
+                        raise ValueError(f"Record with id {id} not found.")
+                except Exception as e:
+                    self._logger.error(f"Error deleting record with id {id}: {e}")
+                    raise Exception(f"Error deleting record with id {id}: {e}")
+                finally:
+                    await session.close()
         except Exception as e:
             self._logger.error(f"BaseService.delete Error: {e}")
             raise Exception(f"BaseService.delete Error: {e}")
