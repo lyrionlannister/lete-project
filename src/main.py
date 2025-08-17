@@ -1,9 +1,12 @@
 from fastapi import FastAPI
 
+from modules.database import database_router
 from modules.database.models import *
 from config.db import Base, get_app_db
 
 app = FastAPI(root_path="/api")
+
+app.include_router(database_router, prefix="/database", tags=["database"])
 
 @app.on_event("startup")
 async def on_startup():

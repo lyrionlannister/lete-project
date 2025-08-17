@@ -1,24 +1,60 @@
 from ..services.ConnectionService import ConnectionService
+from modules.base.controller.base_controller import BaseController
 
-class ConnectionController:
+class ConnectionController(BaseController):
     """
     Controller for managing database connections.
+    Inherits from BaseController to provide common functionality.
     """
 
-    def __init__(self):
-        self.service = ConnectionService.get_instance()
+    def __init__(self, service):
+        super().__init__(service)
 
-    async def get(self, id: int):
-        return await self.service.get(id)
+    @classmethod
+    async def get_instance(cls):
+        if not hasattr(cls, "_instance"):
+            service = await ConnectionService.get_instance()  # 👈 await aquí
+            cls._instance = cls(service)
+        return cls._instance
 
-    async def get_all(self):
-        return await self.service.get_all()
+    async def get_connection(self, id: int):
+        """
+        Retrieves a connection by its ID.
 
-    async def create(self, data: dict):
-        return await self.service.add(data)
+        :param id: The ID of the connection to retrieve
+        """
+        
+        return await self.get(id)
 
-    async def update(self, id: int, data: dict):
-        return await self.service.update(id, data)
+    async def get_all_connections(self):
+        """
+        Retrieves all connections.
 
-    async def delete(self, id: int):
-        return await self.service.delete(id)
+        :return: List of all connections
+        """
+        return await self.get_all()
+    
+    async def create_connection(self, data: dict):
+        """
+        Creates a new connection.
+
+        :param data: The data for the new connection
+        """
+        return await self.create(data)
+    
+    async def update_connection(self, id: int, data: dict):
+        """
+        Updates an existing connection.
+
+        :param id: The ID of the connection to update
+        :param data: The new data for the connection
+        """
+        return await self.update(id, data)
+    
+    async def delete_connection(self, id: int):
+        """
+        Deletes a connection by its ID.
+
+        :param id: The ID of the connection to delete
+        """
+        return await self.delete(id)

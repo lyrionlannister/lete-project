@@ -105,7 +105,7 @@ class BaseService:
             self._logger.error(f"BaseService.get_by_query Error: {e}")
             raise Exception(f"BaseService.get_by_query Error: {e}")
         
-    async def delete(self, id: int) -> None:
+    async def delete(self, id: int) -> bool:
         """
         Deletes a model instance from the database.
 
@@ -119,6 +119,7 @@ class BaseService:
                         await session.delete(record)
                         await session.commit()
                         self._logger.info(f"Deleted record with id: {id}")
+                        return True
                     else:
                         raise ValueError(f"Record with id {id} not found.")
                 except Exception as e:
