@@ -6,7 +6,7 @@ from config.db.database_base import Base
 class ConnectionModel(Base):
     __tablename__ = "connections"
 
-    id = Column(Sequence("connection_id_seq"), primary_key=True, autoincrement=True)
+    id = Column(Integer, Sequence("connection_id_seq"), primary_key=True)
     name = Column(String, nullable=False)
     host = Column(String, nullable=False)
     port = Column(Integer, nullable=False)

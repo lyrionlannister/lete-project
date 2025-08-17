@@ -74,7 +74,7 @@ class Database:
                 self._logger.info("Using PostgreSQL database engine.")
                 return (
                     f"postgresql+asyncpg://{self.config['user']}:{self.config['password']}"
-                    f"@{self.config['host']}:{self.config['port']}/{self.config['database']}?sslmode={ssl_mode}"
+                    f"@{self.config['host']}:{self.config['port']}/{self.config['database']}"
                 )
             case _:
                 raise ValueError(f"Unsupported database engine: {sql_engine}")

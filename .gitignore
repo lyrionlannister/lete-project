@@ -3,10 +3,12 @@ __pycache__/
 *.py[oc]
 build/
 dist/
+logs/
 wheels/
+alembic/
 *.egg-info
 
 # Virtual environments
 .venv
-
+alembic.ini
 uv.lock
