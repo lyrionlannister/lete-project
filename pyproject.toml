@@ -1,0 +1,14 @@
+[project]
+name = "fastapi-mvc-template"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "aiomysql>=0.2.0",
+    "aiosqlite>=0.21.0",
+    "fastapi[standard]>=0.116.1",
+    "packages>=0.1.0",
+    "pandas>=2.3.1",
+    "sqlalchemy>=2.0.43",
+]
