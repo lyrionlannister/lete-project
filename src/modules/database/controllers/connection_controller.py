@@ -1,4 +1,4 @@
-from ..services.ConnectionService import ConnectionService
+from ..services.connection_service import ConnectionService
 from modules.base.controller.base_controller import BaseController
 
 class ConnectionController(BaseController):
@@ -13,7 +13,7 @@ class ConnectionController(BaseController):
     @classmethod
     async def get_instance(cls):
         if not hasattr(cls, "_instance"):
-            service = await ConnectionService.get_instance()  # 👈 await aquí
+            service = await ConnectionService.get_instance()
             cls._instance = cls(service)
         return cls._instance
 

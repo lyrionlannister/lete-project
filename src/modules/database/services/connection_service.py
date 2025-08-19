@@ -15,5 +15,3 @@ class ConnectionService(BaseService):
             cls._instance = cls(db, ConnectionModel)
         
         return cls._instance
-
-   
