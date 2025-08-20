@@ -3,6 +3,7 @@ from typing import Optional, Any
 from urllib.parse import urlparse
 import redis.asyncio as redis
 from .cache_config import CacheConfig
+from modules.cache_updater.decorators.ensure_connection import ensure_connection
 
     
 @dataclass
@@ -25,34 +26,34 @@ class CacheClient:
         )
         await self.client.ping()
 
+    @ensure_connection
     async def get(self, key: str) -> Optional[bytes]:
         """Obtiene un valor del cache."""
-        if not self.client:
-            await self.connect()
+        
         return await self.client.get(key)
 
+    @ensure_connection
     async def set(self, key: str, value: Any, ex: Optional[int] = None) -> bool:
         """Establece un valor en el cache con expiración opcional."""
-        if not self.client:
-            await self.connect()
+        
         return await self.client.set(key, value, ex=ex)
 
+    @ensure_connection
     async def delete(self, key: str) -> int:
         """Elimina una clave del cache."""
-        if not self.client:
-            await self.connect()
+        
         return await self.client.delete(key)
     
+    @ensure_connection
     async def exists(self, key: str) -> bool:
         """Verifica si una clave existe."""
-        if not self.client:
-            await self.connect()
+        
         return bool(await self.client.exists(key))
     
+    @ensure_connection
     async def ping(self) -> str:
         """Hace ping al servidor Redis para verificar la conexión."""
-        if not self.client:
-            await self.connect()
+        
         result = await self.client.ping()
         return "pong" if result else "no response"
     
