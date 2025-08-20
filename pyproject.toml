@@ -12,5 +12,6 @@ dependencies = [
     "fastapi[standard]>=0.116.1",
     "packages>=0.1.0",
     "pandas>=2.3.1",
+    "redis[asyncio]>=6.4.0",
     "sqlalchemy>=2.0.43",
 ]
