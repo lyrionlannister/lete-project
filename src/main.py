@@ -3,6 +3,10 @@ from fastapi import FastAPI
 from modules.database import database_router
 from modules.database.models import *
 from config.db import Base, get_app_db
+from dotenv import load_dotenv
+
+load_dotenv()
+
 
 app = FastAPI(root_path="/api")
 

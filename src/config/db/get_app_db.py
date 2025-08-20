@@ -1,13 +1,16 @@
+import os
+
+
 from .database import Database
 from .database_config import DatabaseConfig
 
 lete_config = DatabaseConfig(
-    host="localhost",
-    port=5432,
-    user="postgres",
-    password="admin",
-    database="lete_db",
-    ssl_enabled=False,
+    host=os.getenv("DB_HOST_PGSQL"),
+    port=os.getenv("DB_PORT_PGSQL"),
+    user=os.getenv("USER_PGSQL"),
+    password=os.getenv("PASSWORD_PGSQL"),
+    database=os.getenv("DB_NAME_PGSQL"),
+    ssl_enabled=os.getenv("SSL_ENABLED_PGSQL"),
     db_engine="postgresql"
 )
 
