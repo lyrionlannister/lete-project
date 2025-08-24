@@ -1,9 +1,14 @@
+from sqlalchemy import text
+
+from sqlalchemy import text
+from sqlalchemy.ext.asyncio import AsyncEngine
+
 SQL_DATABASES_COMMANDS = {
-    "postgresql": "SELECT datname FROM pg_database WHERE datistemplate = false;",
-    "mysql": "SHOW DATABASES;",
-    "sqlite": "PRAGMA database_list;",
-    "sqlserver": "SELECT name FROM sys.databases;",
-    "oracle": "SELECT name FROM v$database;",
+    "postgresql": (text("SELECT datname FROM pg_database WHERE datistemplate = false;"), 0),
+    "mysql": (text("SHOW DATABASES;"), 0),
+    "sqlite": (text("PRAGMA database_list;"), 1),  # columna 1 = name
+    "sqlserver": (text("SELECT name FROM sys.databases;"), 0),
+    "oracle": (text("SELECT name FROM v$database;"), 0),
 }
 
 SQL_TABLES_COMMANDS = {

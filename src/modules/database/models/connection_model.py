@@ -1,5 +1,6 @@
+# connection_model.py
 from sqlalchemy import Column, Integer, String, ForeignKey, Boolean, Sequence
-
+from sqlalchemy.orm import relationship
 from config.db.database_base import Base
 
 
@@ -15,3 +16,6 @@ class ConnectionModel(Base):
     database = Column(String, nullable=False)
     ssl_enabled = Column(Boolean, default=False)
     sql_engine = Column(String, nullable=False)
+
+    # relación inversa
+    cached_tables = relationship("CachedTablesModel", back_populates="connection", cascade="all, delete-orphan")

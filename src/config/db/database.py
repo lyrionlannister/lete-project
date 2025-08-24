@@ -11,7 +11,6 @@ class Database:
         self.config = config
         self.engine = None
         self.session_factory = None
-        
 
     async def connect(self):
         self._logger.info(f"Connecting to the database {self.config['database']}...")
@@ -19,7 +18,7 @@ class Database:
             conn_str = await self._get_db_connection_string()
             self.engine = create_async_engine(
                 conn_str,
-                echo=True,
+                echo=False,
                 future=True
             )
             self.session_factory = async_sessionmaker(
@@ -72,6 +71,14 @@ class Database:
                 )
             case 'postgresql':
                 self._logger.info("Using PostgreSQL database engine.")
+
+                
+                if self.config.get('database') is None:
+                    return (
+                        f"postgresql+asyncpg://{self.config['user']}:{self.config['password']}"
+                        f"@{self.config['host']}:{self.config['port']}"
+                    )
+                
                 return (
                     f"postgresql+asyncpg://{self.config['user']}:{self.config['password']}"
                     f"@{self.config['host']}:{self.config['port']}/{self.config['database']}"
